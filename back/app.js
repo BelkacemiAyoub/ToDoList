@@ -12,8 +12,7 @@ app.use(bodyParser.json());
 app.use(cors());
 // MongoDB & Schema
 const mongoose = require("mongoose");
-const autoIncrement = require("mongoose-auto-increment");
-const { json } = require("body-parser");
+const autoIncrement = require("mongoose-auto-increment")
 mongoose.connect("mongodb://localhost/todo", { useNewUrlParser: true });
 
 const db = mongoose.connection;
@@ -48,7 +47,7 @@ app.post("/api/create", (req, res) => {
 });
 
 app.post("/api/get", (req, res) => {
-  let tasks = Todo.find({}, function (err, result) {
+ Todo.find({}, function (err, result) {
     if (err) {
       return res.status(500).json(err);
     } else {
