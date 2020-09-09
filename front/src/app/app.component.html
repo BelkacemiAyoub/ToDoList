@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <body>
+    <form (ngSubmit)="Submit(f)" #f="ngForm">
+      <input
+        type="text"
+        class="w3-input"
+        ngModel
+        name="Tache"
+        [ngStyle]="{ width: '50vh', margin: 'auto' }"
+      />
+      <input
+        type="submit"
+        class="w3-button w3-large w3-circle w3-xlarge w3-ripple w3-black w3-center"
+        value="Ajouter"
+        [ngStyle]="{ 'margin-left': '47%',  'margin-top': '2%' }"
+      />
+    </form>
+
+    <div class="w3-container w3-display-middle">
+      <ul class="w3-ul">
+        <li
+          *ngFor="let task of tasks"
+          [ngStyle]="{
+            'background-color': task.state ? 'lightgreen' : '',
+            width: '50vh'
+          }"
+        >
+          {{ task.tache }}
+          <button
+            (click)="remove(task._id)"
+            class="w3-btn w3-padding-large w3-hover-red w3-red"
+            [ngStyle]="{ marginLeft: '5vh', display: 'inline' }"
+          >
+            -
+          </button>
+          <button
+            class="w3-btn w3-green w3-padding-large w3-hover-red"
+            (click)="update(task._id)"
+          >
+            &#10004;
+          </button>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

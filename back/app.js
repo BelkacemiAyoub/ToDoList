@@ -7,12 +7,21 @@ var cors = require("cors");
 app.listen(port, () => {
   console.log(`Todolist at http://localhost:${port}`);
 });
+
+//MIDDLEWARE
+var Chefing = function (req, res, next) {
+   if (!req.get("chefing")) {
+    return res.json({ error: "Chefing header didn't found" });
+  } 
+  next();
+};
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 // MongoDB & Schema
 const mongoose = require("mongoose");
-const autoIncrement = require("mongoose-auto-increment")
+const autoIncrement = require("mongoose-auto-increment");
 mongoose.connect("mongodb://localhost/todo", { useNewUrlParser: true });
 
 const db = mongoose.connection;
@@ -35,7 +44,7 @@ var Todo = mongoose.model("Todo", todoSchema);
 
 // Route
 
-app.post("/api/create", (req, res) => {
+app.post("/api/create",Chefing, (req, res) => {
   var Task = Todo({ tache: req.body.task, state: false });
   Task.save(function (err) {
     if (err) {
@@ -46,8 +55,8 @@ app.post("/api/create", (req, res) => {
   });
 });
 
-app.post("/api/get", (req, res) => {
- Todo.find({}, function (err, result) {
+app.post("/api/get",Chefing, (req, res) => {
+  Todo.find({}, function (err, result) {
     if (err) {
       return res.status(500).json(err);
     } else {
